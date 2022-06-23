@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const mongoosePaginate = require('mongoose-paginate')
 
 const ImageSchema = mongoose.Schema({
     title :{
@@ -6,9 +7,10 @@ const ImageSchema = mongoose.Schema({
         required: true
     },
     image:{
-        data: Buffer,
-        contentType: String
+        type: String,
+        required: true
     }
 })
 
+ImageSchema.plugin(mongoosePaginate)
 module.exports = mongoose.model('ImageModel', ImageSchema)

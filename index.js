@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express')
 const app = express()
 const cors = require('cors')
+const db = require('./config/database')
 
 
 // middlewares
@@ -14,6 +15,7 @@ app.use(express.json())
 
 const start = async () => {
     try {
+        await db
         app.listen(process.env.PORT, ()=>{
             console.log(`Server started on port ${process.env.PORT}`)
         }) 
@@ -21,5 +23,4 @@ const start = async () => {
       console.log(error)  
     }
 };
-
 start();

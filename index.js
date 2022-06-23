@@ -3,6 +3,8 @@ const express = require('express')
 const app = express()
 const cors = require('cors')
 const db = require('./config/database')
+const imageRoutes = require('./route/imageRoutes')
+
 
 
 // middlewares
@@ -10,8 +12,8 @@ app.use(cors())
 app.use(express.json())
 
 
-
-
+app.use('/uploads', imageRoutes);
+ 
 
 const start = async () => {
     try {
@@ -22,5 +24,6 @@ const start = async () => {
     } catch (error) {
       console.log(error)  
     }
+    
 };
 start();

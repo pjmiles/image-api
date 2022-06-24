@@ -2,11 +2,11 @@ const ImageModel = require("../model/imageModel");
 const multer = require("multer");
 
 // to upload image
-const uploadImage = (req, res) => {
+const uploadImage = async (req, res, next) => {
   const ImageStorage = multer.diskStorage({
     destination: "uploads",
     filename: (req, file, cb) => {
-      cb(null, file.originalname);
+      cb(null, file.originalname + '-' + Date.now());
     },
   });
 
@@ -16,7 +16,7 @@ const uploadImage = (req, res) => {
 
   upload(req, res, (err) => {
     if (err) {
-      console.log(err);
+      console.log (err);
     } else {
       const image = req.file.filename;
       const newImage = new ImageModel({
@@ -29,6 +29,15 @@ const uploadImage = (req, res) => {
   });
 };
 
+// search uploaded image
+const searchUploadedImage = async (req, res, next) => {
+  const result = await ImageModel.find({
+    $or: [{ title: { $regex: req.params.id } }],
+  });
+  res.json({ result });
+};
+
 module.exports = {
   uploadImage,
+  searchUploadedImage
 };
